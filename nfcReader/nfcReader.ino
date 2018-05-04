@@ -12,51 +12,61 @@ uint8_t ndefBuf[128];
 
   bool temizlikciOdada = false;
   bool musteriOdada = false;
+  String guvenlikKodu="A123";
+  String kapiNo="A2";
+  String musteri="MUSTERI";
+  String kapi="KAPI";
+  String sifirla="SIFIRLA";
+  String personel="PERSONEL";
 
-bool Odakontrol (String mesaj){
-  //oda numarasını kontrol edecek fonksiyondur
-  if(mesaj.equals("A2")){
-      return true;
-    }
-    return false;
-  }
 
 void Ege(String mesaj){
-    String tarih = mesaj.substring(0,9);
-    String icerik = mesaj.substring(9,mesaj.length());
     int i=0,j=0,k=0;
     String array[6]={"","","","","",""};
-    for(i=0;i<icerik.length();i++){
-        if(icerik.charAt(i)==' '){
-            array[k]=icerik.substring(j,i);
+    for(i=0;i<mesaj.length();i++){
+        if(mesaj.charAt(i)==' '){
+            array[k]=mesaj.substring(j,i);
             k++;
             j=i+1;
           }
       }
-      if(Odakontrol(array[0])){
-         if(array[1].equals("TEMIZLIKCI") && !temizlikciOdada){
-          //temizlikçi odaya giris yapsın
-            temizlikciOdada = true;
-            Serial.println(tarih+" "+array[1]+" "+array[2]+" odaya giriş yaptı");
-          }
-          else if (array[1].equals("TEMIZLIKCI") && temizlikciOdada){
-            //temizlikçi odadan çıkış yapsın
-            temizlikciOdada = false;
-            Serial.println(tarih+" "+array[1]+" "+array[2]+" odadan çıkış yaptı");
+
+      //1 => tür (sıfırlama/kapı aç)
+      //2 => kapı no
+      //3 => personel tür (müşteri/personel)
+      //4 => güvenlik kodu
+      //5 => kişi bilgisi
+      Serial.println("tür= "+array[1]);
+      Serial.println("kapı no = "+array[2]);
+      Serial.println("personel tür= "+array[3]);
+      Serial.println("güvenlik kodu= "+array[4]);
+      Serial.println("kişi bilgisi= "+array[5]);
+
+      //KAPI - SIFIRLA () A2 () MUSTERI - PERSONEL () A123 () KİŞİ BİLGİSİ
+      //KAPI () A2 () MUSTERI () A123 () KİŞİ BİLGİSİ
+
+      
+      
+      if(sifirla==array[1] && kapiNo==array[2]){
+          guvenlikKodu=array[4];
+        }
+        else if(kapi==array[1] && kapiNo==array[2] && guvenlikKodu==array[4] && array[3]=="MUSTERI"){
+          musteriOdada=!musteriOdada;
+          if(musteriOdada){
+            Serial.println(array[3]+" "+array[5]+" giriş yaptı");
             }
-            else if (array[1].equals("MUSTERI") && !musteriOdada){
-            //müşteri odaya giriş yapsın
-            musteriOdada = true;
-            Serial.println(tarih+" "+array[1]+" "+array[2]+" odaya giriş yaptı");
+            else{
+              Serial.println(array[3]+" "+array[5]+" çıkış yaptı");
+              }          
+        }
+        else if(kapi==array[1] && kapiNo==array[2] && guvenlikKodu==array[4] && array[3]=="PERSONEL"){
+          temizlikciOdada=!temizlikciOdada;
+          if(temizlikciOdada){
+            Serial.println(array[3]+" "+array[5]+" giriş yaptı");
             }
-            else if (array[1].equals("MUSTERI") && musteriOdada){
-            //müşteri odadan çıkış yapsın
-            musteriOdada = false;
-            Serial.println(tarih+" "+array[1]+" "+array[2]+" odadan çıkış yaptı");
-            }
-      }
-      else{
-        Serial.println("Oda giriş izniniz bulunmuyor.");
+            else{
+              Serial.println(array[3]+" "+array[5]+" çıkış yaptı");
+              }          
         }
   }
 
