@@ -22,7 +22,7 @@ uint8_t ndefBuf[128];
 
 void Ege(String mesaj){
     int i=0,j=0,k=0;
-    String array[6]={"","","","","",""};
+    String array[7]={"","","","","",""};
     for(i=0;i<mesaj.length();i++){
         if(mesaj.charAt(i)==' '){
             array[k]=mesaj.substring(j,i);
@@ -41,7 +41,7 @@ void Ege(String mesaj){
       Serial.println("personel tür= "+array[3]);
       Serial.println("güvenlik kodu= "+array[4]);
       Serial.println("kişi bilgisi= "+array[5]);
-
+      
       //KAPI - SIFIRLA () A2 () MUSTERI - PERSONEL () A123 () KİŞİ BİLGİSİ
       //KAPI () A2 () MUSTERI () A123 () KİŞİ BİLGİSİ
 
