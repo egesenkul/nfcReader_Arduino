@@ -13,7 +13,7 @@ uint8_t ndefBuf[128];
   bool temizlikciOdada = false;
   bool musteriOdada = false;
   String guvenlikKodu="A123";
-  String kapiNo="A2";
+  String kapiNo="104";
   String musteri="MUSTERI";
   String kapi="KAPI";
   String sifirla="SIFIRLA";
@@ -40,7 +40,7 @@ void Ege(String mesaj){
       Serial.println("kapı no = "+array[2]);
       Serial.println("personel tür= "+array[3]);
       Serial.println("güvenlik kodu= "+array[4]);
-      Serial.println("kişi bilgisi= "+array[5]);
+      Serial.println("kişi bilgisi= "+array[5] +" "+array[6]);
       
       //KAPI - SIFIRLA () A2 () MUSTERI - PERSONEL () A123 () KİŞİ BİLGİSİ
       //KAPI () A2 () MUSTERI () A123 () KİŞİ BİLGİSİ
